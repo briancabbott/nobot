@@ -131,7 +131,8 @@ struct optionw {
 static int print_version(WGET_GCC_UNUSED option_t opt, WGET_GCC_UNUSED const char *val, WGET_GCC_UNUSED const char invert)
 {
 #ifndef FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION
-	puts("GNU Wget2 " PACKAGE_VERSION " - multithreaded metalink/file/website downloader\n");
+	puts("(Brian's WGET) -- GNU Wget2 " PACKAGE_VERSION);
+	puts("A multithreaded metalink/file/website downloader\n");
 	puts("+digest"
 
 #if defined WITH_GNUTLS
@@ -2283,7 +2284,8 @@ static inline void print_next(const char *msg)
 static int print_help(WGET_GCC_UNUSED option_t opt, WGET_GCC_UNUSED const char *val, WGET_GCC_UNUSED const char invert)
 {
 	printf(
-		"GNU Wget2 V" PACKAGE_VERSION " - multithreaded metalink/file/website downloader\n"
+		"(Brian's WGET) -- GNU Wget2 V" PACKAGE_VERSION "\n"
+		"A multithreaded metalink/file/website downloader\n"
 		"\n"
 		"Usage: wget [options...] <url>...\n"
 		"\n");

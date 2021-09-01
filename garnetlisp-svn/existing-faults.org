@@ -1,0 +1,20 @@
+#+COMMENT:
+#+COMMENT: $Id: existing-faults.org 114 2017-03-23 17:07:47Z rotgut $
+#+COMMENT:
+* Font Size problem
+  - Seems like it can't tell the difference between 100dpi and 75dpi fonts.
+* Motif error gadget doesn't size the buttons correctly
+* Old text button gadget doesn't handle color properly
+  - See the "gadgets" demo
+
+* Allegro process code seems broken.
+* Multifont window flickers when scrolling or changing.
+* Transcription mostly works but
+  - Interaction complete stuff seems to fail.
+* Garnet should not need to connect to the X server to compile.
+* Connecting to the X server is a bit of a mess right now.
+  - CCL has issues with network connections
+    - esp. on Windows
+      - Probably a CLX issue related to endianness
+  - Allegro also has issues if the DISPLAY host is not ""
+* Doesn't recognize unicode.

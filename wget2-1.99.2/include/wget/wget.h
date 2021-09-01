@@ -2457,20 +2457,20 @@ WGETAPI void
  * Robots types and routines
  */
 
-typedef struct wget_robots_st wget_robots;
+// typedef struct wget_robots_st wget_robots;
 
-WGETAPI int
-	wget_robots_parse(wget_robots **robots, const char *data, const char *client);
-WGETAPI void
-	wget_robots_free(wget_robots **robots);
-WGETAPI int
-	wget_robots_get_path_count(wget_robots *robots);
-WGETAPI wget_string * NULLABLE
-	wget_robots_get_path(wget_robots *robots, int index);
-WGETAPI int
-	wget_robots_get_sitemap_count(wget_robots *robots);
-WGETAPI const char * NULLABLE
-	wget_robots_get_sitemap(wget_robots *robots, int index);
+// WGETAPI int
+// 	wget_robots_parse(wget_robots **robots, const char *data, const char *client);
+// WGETAPI void
+// 	wget_robots_free(wget_robots **robots);
+// WGETAPI int
+// 	wget_robots_get_path_count(wget_robots *robots);
+// WGETAPI wget_string * NULLABLE
+// 	wget_robots_get_path(wget_robots *robots, int index);
+// WGETAPI int
+// 	wget_robots_get_sitemap_count(wget_robots *robots);
+// WGETAPI const char * NULLABLE
+// 	wget_robots_get_sitemap(wget_robots *robots, int index);
 
 /*
  * Progress bar routines

@@ -2135,21 +2135,22 @@ static void process_response(wget_http_response *resp)
 		}
 	}
 
-	if (// job->robotstxt &&
-			// Only if a file was downloaded
-			resp->body &&
-			// Parse the robots file and only if it was successful
-			// (wget_robots_parse(&job->host->robots, resp->body->data, PACKAGE_NAME) == WGET_E_SUCCESS) &&
-			// Sitemaps are not relevant as page requisites
-			!config.page_requisites)
-	{
-		// add sitemaps to be downloaded (format https://www.sitemaps.org/protocol.html)
-		for (int it = 0, n = wget_robots_get_sitemap_count(job->host->robots); it < n; it++) {
-			const char *sitemap = wget_robots_get_sitemap(job->host->robots, it);
-			debug_printf("adding sitemap '%s'\n", sitemap);
-			add_url(job, "utf-8", sitemap, URL_FLG_SITEMAP); // see https://www.sitemaps.org/protocol.html#escaping
-		}
-	} else if (resp->code == 200 || resp->code == 206) {
+	// if (// job->robotstxt &&
+	// 		// Only if a file was downloaded
+	// 		resp->body &&
+	// 		// Parse the robots file and only if it was successful
+	// 		// (wget_robots_parse(&job->host->robots, resp->body->data, PACKAGE_NAME) == WGET_E_SUCCESS) &&
+	// 		// Sitemaps are not relevant as page requisites
+	// 		!config.page_requisites)
+	// {
+	// 	// add sitemaps to be downloaded (format https://www.sitemaps.org/protocol.html)
+	// 	for (int it = 0, n = wget_robots_get_sitemap_count(job->host->robots); it < n; it++) {
+	// 		const char *sitemap = wget_robots_get_sitemap(job->host->robots, it);
+	// 		debug_printf("adding sitemap '%s'\n", sitemap);
+	// 		add_url(job, "utf-8", sitemap, URL_FLG_SITEMAP); // see https://www.sitemaps.org/protocol.html#escaping
+	// 	}
+	// } else 
+	if (resp->code == 200 || resp->code == 206) {
 		if (process_decision && recurse_decision) {
 			if (resp->content_type && resp->body) {
 				if (!wget_strcasecmp_ascii(resp->content_type, "text/html")) {
@@ -2252,14 +2253,14 @@ static void process_response(wget_http_response *resp)
 
 static void _fallback_to_http(JOB *job)
 {
-	if (!job->robotstxt) {
-		char *http_url = wget_aprintf("http://%s", job->iri->uri + 8);
-		add_url(NULL, "utf-8", http_url, URL_FLG_SKIPFALLBACK);
+	// if (!job->robotstxt) {
+	// 	char *http_url = wget_aprintf("http://%s", job->iri->uri + 8);
+	// 	add_url(NULL, "utf-8", http_url, URL_FLG_SKIPFALLBACK);
+	// 	host_remove_job(job->host, job);
+	// 	xfree(http_url);
+	// } else {
 		host_remove_job(job->host, job);
-		xfree(http_url);
-	} else {
-		host_remove_job(job->host, job);
-	}
+	// }
 }
 
 enum actions {
@@ -2592,8 +2593,8 @@ void html_parse(JOB *job, int level, const char *html, size_t html_len, const ch
 
 	wget_html_parsed_result *parsed  = wget_html_get_urls_inline(html, config.follow_tags, config.ignore_tags);
 
-	if (config.robots && !parsed->follow)
-		goto cleanup;
+	// if (config.robots && !parsed->follow)
+	// 	goto cleanup;
 
 	if (!encoding) {
 		if (parsed->encoding) {
@@ -3710,9 +3711,9 @@ static wget_http_request *http_create_request(wget_iri *iri, JOB *job)
 
 		/* We never want to continue the robots job. Always grab a fresh copy
 		 * from the server. */
-		if (job->robotstxt == true) {
-			unlink(local_filename);
-		}
+		// if (job->robotstxt == true) {
+		// 	unlink(local_filename);
+		// }
 
 		if (config.continue_download) {
 			long long file_size = get_file_size(local_filename);

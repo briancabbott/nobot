@@ -52,7 +52,7 @@
 
 /* Define to 1 if translation of program messages to the user's native
    language is requested. */
-/* #undef ENABLE_NLS */
+#define ENABLE_NLS 1
 
 /* Define if you want file meta-data storing into POSIX Extended Attributes
    compiled in. */
@@ -578,7 +578,7 @@
 
 /* Define if the GNU dcgettext() function is already present or preinstalled.
    */
-/* #undef HAVE_DCGETTEXT */
+#define HAVE_DCGETTEXT 1
 
 /* Define to 1 if you have the declaration of `alarm', and to 0 if you don't.
    */
@@ -868,7 +868,7 @@
 #define HAVE_GETSERVBYNAME 1
 
 /* Define if the GNU gettext() function is already present or preinstalled. */
-/* #undef HAVE_GETTEXT */
+#define HAVE_GETTEXT 1
 
 /* Define to 1 if you have the `gettimeofday' function. */
 #define HAVE_GETTIMEOFDAY 1
@@ -958,7 +958,7 @@
 #define HAVE_LC_MESSAGES 1
 
 /* Define to 1 if you have the <libintl.h> header file. */
-/* #undef HAVE_LIBINTL_H */
+#define HAVE_LIBINTL_H 1
 
 /* Define to 1 if you have the <limits.h> header file. */
 #define HAVE_LIMITS_H 1
@@ -1808,7 +1808,7 @@
 /* #undef WINT_T_SUFFIX */
 
 /* Use brotlidec */
-/* #undef WITH_BROTLIDEC */
+#define WITH_BROTLIDEC 1
 
 /* Use libbz2 */
 #define WITH_BZIP2 1
@@ -1838,13 +1838,13 @@
 /* #undef WITH_LIBNETTLE */
 
 /* HTTP/2.0 support enabled via libnghttp2 */
-/* #undef WITH_LIBNGHTTP2 */
+#define WITH_LIBNGHTTP2 1
 
 /* PCRE regex support enabled via libpcre */
-#define WITH_LIBPCRE 1
+/* #undef WITH_LIBPCRE */
 
 /* PCRE regex support enabled via libpcre2 */
-/* #undef WITH_LIBPCRE2 */
+#define WITH_LIBPCRE2 1
 
 /* PSL support enabled */
 #define WITH_LIBPSL 1
@@ -1877,7 +1877,7 @@
 #define WITH_ZLIB 1
 
 /* Use zstd */
-/* #undef WITH_ZSTD */
+#define WITH_ZSTD 1
 
 /* Define WORDS_BIGENDIAN to 1 if your processor stores words with the most
    significant byte first (like Motorola and SPARC, unlike Intel). */

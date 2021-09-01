@@ -1,4 +1,5 @@
-GNU Wget2 V1.99.2 - multithreaded metalink/file/website downloader
+(Brian's WGET) -- GNU Wget2 V1.99.2
+A multithreaded metalink/file/website downloader
 
 Usage: wget [options...] <url>...
 

@@ -36,29 +36,29 @@ INSTALL_DATA = ${INSTALL} -m 644
 # We use $(mkdir_p).
 # In automake <= 1.9.x, $(mkdir_p) is defined either as "mkdir -p --" or as
 # "$(mkinstalldirs)" or as "$(install_sh) -d". For these automake versions,
-# ${SHELL} /Users/brian/dev_space/wget-mine/wget2-1.99.2/build-aux/install-sh does not start with $(SHELL), so we add it.
+# ${SHELL} /Users/brian/dev_space/nobot-wget/wget2-1.99.2/build-aux/install-sh does not start with $(SHELL), so we add it.
 # In automake >= 1.10, $(MKDIR_P) is derived from ${MKDIR_P}, which is defined
 # either as "/path/to/mkdir -p" or ".../install-sh -c -d". For these automake
 # versions, $(mkinstalldirs) and $(install_sh) are unused.
-mkinstalldirs = $(SHELL) ${SHELL} /Users/brian/dev_space/wget-mine/wget2-1.99.2/build-aux/install-sh -d
-install_sh = $(SHELL) ${SHELL} /Users/brian/dev_space/wget-mine/wget2-1.99.2/build-aux/install-sh
+mkinstalldirs = $(SHELL) ${SHELL} /Users/brian/dev_space/nobot-wget/wget2-1.99.2/build-aux/install-sh -d
+install_sh = $(SHELL) ${SHELL} /Users/brian/dev_space/nobot-wget/wget2-1.99.2/build-aux/install-sh
 MKDIR_P = /usr/local/bin/gmkdir -p
 mkdir_p = $(MKDIR_P)
 
-GMSGFMT_ = :
-GMSGFMT_no = :
-GMSGFMT_yes = :
+GMSGFMT_ = /usr/local/bin/msgfmt
+GMSGFMT_no = /usr/local/bin/msgfmt
+GMSGFMT_yes = /usr/local/bin/msgfmt
 GMSGFMT = $(GMSGFMT_$(USE_MSGCTXT))
-MSGFMT_ = :
-MSGFMT_no = :
-MSGFMT_yes = :
+MSGFMT_ = /usr/local/bin/msgfmt
+MSGFMT_no = /usr/local/bin/msgfmt
+MSGFMT_yes = /usr/local/bin/msgfmt
 MSGFMT = $(MSGFMT_$(USE_MSGCTXT))
-XGETTEXT_ = :
-XGETTEXT_no = :
-XGETTEXT_yes = :
+XGETTEXT_ = /usr/local/bin/xgettext
+XGETTEXT_no = /usr/local/bin/xgettext
+XGETTEXT_yes = /usr/local/bin/xgettext
 XGETTEXT = $(XGETTEXT_$(USE_MSGCTXT))
 MSGMERGE = msgmerge
-MSGMERGE_UPDATE = : --update
+MSGMERGE_UPDATE = /usr/local/bin/msgmerge --update
 MSGINIT = msginit
 MSGCONV = msgconv
 MSGFILTER = msgfilter
@@ -234,7 +234,7 @@ PACKAGE_GNU = yes
 	mv t-$@ $@
 
 
-all: all-no
+all: all-yes
 
 all-yes: stamp-po
 all-no:
@@ -367,7 +367,7 @@ $(POFILES): $(POFILESDEPS)
 
 install: install-exec install-data
 install-exec:
-install-data: install-data-no
+install-data: install-data-yes
 	if test "$(PACKAGE)" = "gettext-tools"; then \
 	  $(mkdir_p) $(DESTDIR)$(gettextsrcdir); \
 	  for file in $(DISTFILES.common) Makevars.template; do \
@@ -425,7 +425,7 @@ install-strip: install
 
 installdirs: installdirs-exec installdirs-data
 installdirs-exec:
-installdirs-data: installdirs-data-no
+installdirs-data: installdirs-data-yes
 	if test "$(PACKAGE)" = "gettext-tools"; then \
 	  $(mkdir_p) $(DESTDIR)$(gettextsrcdir); \
 	else \
@@ -469,7 +469,7 @@ installcheck:
 
 uninstall: uninstall-exec uninstall-data
 uninstall-exec:
-uninstall-data: uninstall-data-no
+uninstall-data: uninstall-data-yes
 	if test "$(PACKAGE)" = "gettext-tools"; then \
 	  for file in $(DISTFILES.common) Makevars.template; do \
 	    rm -f $(DESTDIR)$(gettextsrcdir)/$$file; \

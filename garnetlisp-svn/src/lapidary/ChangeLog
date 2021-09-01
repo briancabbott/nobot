@@ -1,0 +1,8 @@
+;; $Id: ChangeLog 56 2015-01-31 23:50:46Z rotgut $
+;;;; angle-inter.lisp
+;;; CHANGE LOG
+;;;
+;;; 07/14/93 amickish - Declared ANGLE-INTER-MENU special in
+;;;                     Angle-Feedback-Obj-Fn
+;;; 08/25/92 amickish - Added proclaim
+

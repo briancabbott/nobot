@@ -98,7 +98,7 @@ static void _free_host_entry(HOST *host)
 {
 	if (host) {
 		host_queue_free(host);
-		wget_robots_free(&host->robots);
+		// wget_robots_free(&host->robots);
 		wget_xfree(host);
 	}
 }
@@ -190,18 +190,18 @@ static int WGET_GCC_NONNULL_ALL _search_host_for_free_job(struct _find_free_job_
 	}
 
 	// do robots.txt job first before any other document
-	if (host->robot_job) {
-		if (!host->robot_job->inuse) {
-			host->robot_job->inuse = host->robot_job->done = 1;
-			host->robot_job->used_by = wget_thread_self();
-			ctx->job = host->robot_job;
-			debug_printf("host %s dequeue robot job\n", host->host);
-			return 1;
-		}
+	// if (host->robot_job) {
+	// 	if (!host->robot_job->inuse) {
+	// 		host->robot_job->inuse = host->robot_job->done = 1;
+	// 		host->robot_job->used_by = wget_thread_self();
+	// 		ctx->job = host->robot_job;
+	// 		debug_printf("host %s dequeue robot job\n", host->host);
+	// 		return 1;
+	// 	}
 
-		debug_printf("robot job still in progress\n");
-		return 0; // someone is still working on robots.txt
-	}
+	// 	debug_printf("robot job still in progress\n");
+	// 	return 0; // someone is still working on robots.txt
+	// }
 
 	// find next job to do
 	wget_list_browse(host->queue, (wget_list_browse_fn *) _search_queue_for_free_job, ctx);
@@ -270,13 +270,13 @@ void host_release_jobs(HOST *host)
 
 	wget_thread_mutex_lock(hosts_mutex);
 
-	if (host->robot_job) {
-		if (host->robot_job->inuse && host->robot_job->used_by == self) {
-			host->robot_job->inuse = host->robot_job->done = 0;
-			host->robot_job->used_by = 0;
-			debug_printf("released robots.txt job\n");
-		}
-	}
+	// if (host->robot_job) {
+	// 	if (host->robot_job->inuse && host->robot_job->used_by == self) {
+	// 		host->robot_job->inuse = host->robot_job->done = 0;
+	// 		host->robot_job->used_by = 0;
+	// 		debug_printf("released robots.txt job\n");
+	// 	}
+	// }
 
 	wget_list_browse(host->queue, (wget_list_browse_fn *) _release_job, &self);
 
@@ -316,78 +316,79 @@ void host_add_job(HOST *host, const JOB *job)
 	wget_thread_mutex_unlock(hosts_mutex);
 }
 
-/**
- * \param[in] host Host to initialize the robots.txt job with
- * \param[in] iri IRI structure of robots.txt
- *
- * This function creates a priority job for robots.txt.
- * This job has to be processed before any other job.
- */
-void host_add_robotstxt_job(HOST *host, wget_iri *iri, bool http_fallback)
-{
-	JOB *job;
+// /**
+//  * \param[in] host Host to initialize the robots.txt job with
+//  * \param[in] iri IRI structure of robots.txt
+//  *
+//  * This function creates a priority job for robots.txt.
+//  * This job has to be processed before any other job.
+//  */
+// void host_add_robotstxt_job(HOST *host, wget_iri *iri, bool http_fallback)
+// {
+// 	JOB *job;
 
-	job = job_init(NULL, iri, http_fallback);
-	job->host = host;
-	// job->robotstxt = 1;
-	job->local_filename = get_local_filename(job->iri);
+// 	job = job_init(NULL, iri, http_fallback);
+// 	job->host = host;
+// 	// job->robotstxt = 1;
+// 	job->local_filename = get_local_filename(job->iri);
 
-	wget_thread_mutex_lock(hosts_mutex);
-	// host->robot_job = job;
-	host->qsize++;
-	if (!host->blocked)
-		qsize++;
+// 	wget_thread_mutex_lock(hosts_mutex);
+// 	// host->robot_job = job;
+// 	host->qsize++;
+// 	if (!host->blocked)
+// 		qsize++;
 
-	debug_printf("%s: %p %s\n", __func__, (void *)job, job->iri->uri);
-	debug_printf("%s: qsize %d host-qsize=%d\n", __func__, qsize, host->qsize);
+// 	debug_printf("%s: %p %s\n", __func__, (void *)job, job->iri->uri);
+// 	debug_printf("%s: qsize %d host-qsize=%d\n", __func__, qsize, host->qsize);
 
-	wget_thread_mutex_unlock(hosts_mutex);
-}
+// 	wget_thread_mutex_unlock(hosts_mutex);
+// }
 
 static void _host_remove_job(HOST *host, JOB *job)
 {
 	debug_printf("%s: %p\n", __func__, (void *)job);
 
-	if (job == host->robot_job) {
-		// Special handling for automatic robots.txt jobs
-		// ==============================================
-		// What can happen with --recursive and --span-hosts is that a document from hostA
-		// has links to hostB. All these links might go into the hostB queue before robots.txt
-		// is downloaded and parsed. Right here we have downloaded and parsed robots.txt for hostB -
-		// and only now we know if we should follow these links or not.
-		// If any of these links that are disallowed have been explicitly requested by the user,
-		// we still should download them. This holds true for sitemaps as well.
-		if (host->robots) {
-			JOB *next, *thejob = wget_list_getfirst(host->queue);
+	// if (job == host->robot_job) {
+	// 	// Special handling for automatic robots.txt jobs
+	// 	// ==============================================
+	// 	// What can happen with --recursive and --span-hosts is that a document from hostA
+	// 	// has links to hostB. All these links might go into the hostB queue before robots.txt
+	// 	// is downloaded and parsed. Right here we have downloaded and parsed robots.txt for hostB -
+	// 	// and only now we know if we should follow these links or not.
+	// 	// If any of these links that are disallowed have been explicitly requested by the user,
+	// 	// we still should download them. This holds true for sitemaps as well.
+	// 	if (host->robots) {
+	// 		JOB *next, *thejob = wget_list_getfirst(host->queue);
 
-			for (int max = host->qsize - 1; max > 0; max--, thejob = next) {
-				next = wget_list_getnext(thejob);
+	// 		for (int max = host->qsize - 1; max > 0; max--, thejob = next) {
+	// 			next = wget_list_getnext(thejob);
 
-				if (thejob->requested_by_user)
-						continue;
+	// 			if (thejob->requested_by_user)
+	// 					continue;
 
-				if (thejob->sitemap)
-						continue;
+	// 			if (thejob->sitemap)
+	// 					continue;
 
-				for (int it = 0, n = wget_robots_get_path_count(host->robots); it < n; it++) {
-					wget_string *path = wget_robots_get_path(host->robots, it);
+	// 			for (int it = 0, n = wget_robots_get_path_count(host->robots); it < n; it++) {
+	// 				wget_string *path = wget_robots_get_path(host->robots, it);
 
-					if (path->len && !strncmp(path->p + 1, thejob->iri->path ? thejob->iri->path : "", path->len - 1)) {
-						info_printf(_("URL '%s' not followed (disallowed by robots.txt)\n"), thejob->iri->uri);
-						_host_remove_job(host, thejob);
-						break;
-					}
-				}
-			}
-		}
+	// 				if (path->len && !strncmp(path->p + 1, thejob->iri->path ? thejob->iri->path : "", path->len - 1)) {
+	// 					info_printf(_("URL '%s' not followed (disallowed by robots.txt)\n"), thejob->iri->uri);
+	// 					_host_remove_job(host, thejob);
+	// 					break;
+	// 				}
+	// 			}
+	// 		}
+	// 	}
 
-		job_free(job);
-		xfree(host->robot_job);
-	} else {
+	// 	job_free(job);
+	// 	xfree(host->robot_job);
+	// } else {
+
 		job_free(job);
 
 		wget_list_remove(&host->queue, job);
-	}
+	// }
 
 	host->qsize--;
 	if (!host->blocked)
@@ -477,10 +478,10 @@ void host_queue_free(HOST *host)
 	wget_thread_mutex_lock(hosts_mutex);
 	wget_list_browse(host->queue, (wget_list_browse_fn *) _queue_free_func, NULL);
 	wget_list_free(&host->queue);
-	if (host->robot_job) {
-		job_free(host->robot_job);
-		xfree(host->robot_job);
-	}
+	// if (host->robot_job) {
+	// 	job_free(host->robot_job);
+	// 	xfree(host->robot_job);
+	// }
 	if (!host->blocked)
 		qsize -= host->qsize;
 	host->qsize = 0;

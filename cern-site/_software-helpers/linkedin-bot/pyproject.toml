@@ -1,0 +1,16 @@
+[project]
+name = "linkedin-bot"
+version = "0.1.0"
+description = "LinkedIn company people fetcher"
+requires-python = ">=3.10"
+dependencies = [
+  "linkedin-api==2.3.0",
+  "python-dotenv==1.0.1",
+]
+
+[project.scripts]
+linkedin-bot = "bot:main"
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"

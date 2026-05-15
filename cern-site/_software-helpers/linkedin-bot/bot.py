@@ -14,8 +14,8 @@ Example:
 
 Setup:
     1. Copy .env.example to .env and fill in your LinkedIn credentials.
-    2. pip install -r requirements.txt
-    3. Run the script.
+    2. uv sync
+    3. uv run linkedin-bot <linkedin_company_url>
 
 Note:
     Scraping LinkedIn member data may conflict with LinkedIn's Terms of Service.
@@ -32,7 +32,6 @@ from typing import Iterator
 
 from dotenv import load_dotenv
 from linkedin_api import Linkedin
-from linkedin_api.utils.helpers import get_id_from_urn
 
 
 def parse_company_id(company_url: str) -> str:
